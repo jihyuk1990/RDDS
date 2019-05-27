@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- ViewResolver -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="WEB-INF/page/"></property>
+		<!-- prefix : 접두사 -->
+		<property name="suffix" value=".jsp"></property>
+		<!-- suffix : 접미사 -->
+		<!-- 즉, selectSampleList 요청이 있을때, 요청명 앞에 접두사, 요청명 뒤에 접미사 연결. WEB-INF/sample/selectSampleList.jsp -->
+	</bean>
+
+	<context:component-scan base-package="web">
+		<!-- web 패키지 이하의 파일에 아래 내용 적용. -->
+		<!-- component-scan : 여러개의 파일을 확인하고 자동 설정. -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+	
+	  <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="username" value="rambolee9254@gmail.com" />
+        <property name="password" value="kynghee1965" />
+       
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.auth">true</prop>
+               
+               
+            </props>
+        </property>
+       
+    </bean>
+    <bean id="email" class="service.Email">
+    </bean>
+    <bean id="emailSender" class="service.EmailSender">
+    </bean>
+
+
+
+	
+	
+</beans>
